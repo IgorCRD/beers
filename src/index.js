@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import createRoutes from './app-routes';
 
 const root = document.getElementById('app');
 
-const Hello = () => <h1>Hello world!</h1>;
-
-ReactDOM.render(<Hello />, root);
+ReactDOM.render(
+  <BrowserRouter basename={process.env.PUBLIC_URL}>{createRoutes()}</BrowserRouter>,
+  root,
+);

@@ -11,7 +11,10 @@ module.exports = {
   },
   resolve: {
     alias: {
-      root: path.resolve(__dirname, './'),
+      core: path.resolve(__dirname, 'src/modules/core/'),
+      home: path.resolve(__dirname, 'src/modules/home/'),
+      'beer-list': path.resolve(__dirname, 'src/modules/beer-list/'),
+      assets: path.resolve(__dirname, 'assets/'),
       src: path.resolve(__dirname, 'src/'),
     },
     extensions: ['.js', '.jsx'],
