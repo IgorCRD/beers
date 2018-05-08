@@ -43,6 +43,8 @@ class BeerList extends React.Component {
                     tagline={beer.tagline}
                     image={beer.image_url}
                     abv={beer.abv}
+                    volume={beer.volume.value}
+                    volumeUnit={beer.volume.unit}
                   />
                 </li>
               ))}
