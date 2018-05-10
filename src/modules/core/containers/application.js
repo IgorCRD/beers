@@ -17,6 +17,13 @@ const normalize = () => injectGlobal`
   body {
     padding: 0;
     background-color: white;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  #app {
+    height: 100vh;
+    width: 100vw;
   }
 `;
 

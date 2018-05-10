@@ -67,6 +67,7 @@ module.exports = {
     historyApiFallback: {
       rewrites: [{ from: '.', to: './dist/index.html' }],
     },
+    compress: true,
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),

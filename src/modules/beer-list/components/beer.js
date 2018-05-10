@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Flex, Box } from 'grid-styled';
+import { Flex } from 'grid-styled';
 import media from 'core/styles/media-breakpoints';
 
 const BeerImage = styled.img`
@@ -13,10 +13,10 @@ const BeerImage = styled.img`
 const BeerImageWrapper = styled.div`
   height: 14vw;
   width: 14vw;
-  box-shadow: 0px 0px 10px lightgrey;
+  box-shadow: 1px 1px 20px 1px lightgrey;
   padding: 10px;
-  max-width: 160px;
-  max-height: 160px;
+  max-width: 100px;
+  max-height: 100px;
   min-height: 80px;
   min-width: 80px;
   margin-left: -3em;
@@ -26,8 +26,9 @@ const BeerImageWrapper = styled.div`
 
 const BeerDetailsWrapper = styled(Flex)`
   padding: 1.2em;
-  box-shadow: 0px 0px 10px lightgrey;
+  box-shadow: 1px 1px 20px 1px lightgrey;
   border-radius: 3px;
+  margin-left: 1.8em;
 `;
 
 const BeerTitle = styled.h3`
@@ -42,6 +43,11 @@ const SecondaryText = styled.p`
   font-size: 0.8em;
   color: rgb(187, 187, 187);
   margin: 0px;
+`;
+
+const SmallSecondaryText = styled(SecondaryText)`
+  font-size: 0.7em;
+  font-weight: lighter;
 `;
 
 const VerticalBar = styled.div`
@@ -59,45 +65,54 @@ const GreenText = styled.span`
   ${media.phone`font-size: 1em`};
 `;
 
-const OrangeText = styled.span`
+const OrangeText = styled(GreenText)`
   color: rgb(247, 134, 44);
-  font-family: 'Helvetica', 'Arial';
-  font-weight: bold;
-  font-size: 2em;
-  ${media.desktop`font-size: 2em`};
-  ${media.tablet`font-size: 1.5em`};
-  ${media.phone`font-size: 1em`};
+`;
+
+const SmallGreenText = styled(GreenText)`
+  font-size: 1em;
+`;
+
+const SmallOrangeText = styled(OrangeText)`
+  font-size: 1em;
 `;
 
 const Beer = ({
   name, tagline, image, abv, volume, volumeUnit,
 }) => (
-  <Box width={[1, 3 / 4, 2 / 3]} px="1em">
-    <BeerDetailsWrapper>
-      <BeerImageWrapper>
-        <BeerImage src={image} alt="beer" />
-      </BeerImageWrapper>
-      <Flex flexDirection="column" ml="1em" width={[2 / 3]}>
-        <BeerTitle>{name.toUpperCase()}</BeerTitle>
-        <SecondaryText>{tagline}</SecondaryText>
+  <BeerDetailsWrapper>
+    <BeerImageWrapper>
+      <BeerImage src={image} alt="beer" />
+    </BeerImageWrapper>
+    <Flex flexDirection="column" ml="1em" width={[2 / 3]}>
+      <BeerTitle>{name.toUpperCase()}</BeerTitle>
+      <SecondaryText>{tagline}</SecondaryText>
+    </Flex>
+    <Flex>
+      <VerticalBar />
+    </Flex>
+    <Flex
+      flexDirection="column"
+      justifyContent="space-around"
+      alignItems="center"
+      flex="1 1 auto"
+      pl="1.2em"
+    >
+      <SmallSecondaryText>alc/vol</SmallSecondaryText>
+      <div>
+        <GreenText>{abv}</GreenText>
+        <SmallGreenText>%</SmallGreenText>
+      </div>
+      <Flex flexWrap="wrap" justifyContent="center">
+        <SmallSecondaryText>Unit&nbsp;</SmallSecondaryText>
+        <SmallSecondaryText>contains</SmallSecondaryText>
       </Flex>
-      <Flex>
-        <VerticalBar />
-      </Flex>
-      <Flex flexDirection="column" alignItems="center" flex="1 1 auto" pl="1.2em">
-        <SecondaryText>alc/vol</SecondaryText>
-        <GreenText>{abv}%</GreenText>
-        <Flex flexDirection="column" alignItems="center" flex="1 1 auto">
-          <SecondaryText>Unit </SecondaryText>
-          <SecondaryText>contains</SecondaryText>
-        </Flex>
-        <Flex flexDirection="column" alignItems="center" flex="1 1 auto">
-          <OrangeText>{volume}</OrangeText>
-          <OrangeText>{volumeUnit}</OrangeText>
-        </Flex>
-      </Flex>
-    </BeerDetailsWrapper>
-  </Box>
+      <div>
+        <OrangeText>{volume}</OrangeText>
+        <SmallOrangeText>{volumeUnit}</SmallOrangeText>
+      </div>
+    </Flex>
+  </BeerDetailsWrapper>
 );
 
 Beer.propTypes = {

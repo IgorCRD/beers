@@ -1,10 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Box, Flex } from 'grid-styled';
 
 import * as beerListActions from 'beer-list/actions/beer-list-actions';
 import punkApi from 'core/api/punk-api-wrapper';
 import Beer from 'beer-list/components/beer';
+import { StyledFlexList } from 'beer-list/components/beer-list-styles';
+import { FoldingCube } from 'styled-spinkit';
 
 class BeerList extends React.Component {
   static propTypes = {
@@ -32,12 +35,15 @@ class BeerList extends React.Component {
     switch (loadingState) {
       case 'success': {
         return (
-          <ul>
+          <StyledFlexList
+            is="ul"
+            width={[1, 3 / 4, 2 / 3]}
+            flexDirection="column"
+            alignItems="center"
+          >
             {beers &&
               beers.map(beer => (
-                <li key={beer.id}>
-                  {// eslint-disable-next-line no-console
-                  console.log(beer)}
+                <Box is="li" p="1em" key={beer.id}>
                   <Beer
                     name={beer.name}
                     tagline={beer.tagline}
@@ -46,13 +52,17 @@ class BeerList extends React.Component {
                     volume={beer.volume.value}
                     volumeUnit={beer.volume.unit}
                   />
-                </li>
+                </Box>
               ))}
-          </ul>
+          </StyledFlexList>
         );
       }
       case 'loading': {
-        return <h1>Loading</h1>;
+        return (
+          <Flex pt="3em">
+            <FoldingCube />
+          </Flex>
+        );
       }
       case 'fail': {
         return <h1>Something went wrong</h1>;
