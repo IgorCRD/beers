@@ -23,7 +23,15 @@ class PunkAPIWrapper {
       {
         headers: { ...headers },
       },
-    ).then(res => res.json());
+    )
+      .then(res => res.json())
+      .then((beers) => {
+        if (beers.error) {
+          throw beers.message;
+        } else {
+          return beers;
+        }
+      });
 
   static beerShape = () => ({
     id: PropTypes.number.isRequired,

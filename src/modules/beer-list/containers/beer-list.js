@@ -6,21 +6,18 @@ import { Box, Flex } from 'grid-styled';
 import * as beerListActions from 'beer-list/actions/beer-list-actions';
 import punkApi from 'core/api/punk-api-wrapper';
 import Beer from 'beer-list/components/beer';
-import { StyledFlexList } from 'beer-list/components/beer-list-styles';
 import { FoldingCube } from 'styled-spinkit';
+import ErrorCard from 'core/components/error-card';
 
 class BeerList extends React.Component {
   static propTypes = {
     loadPage: PropTypes.func.isRequired,
     beers: PropTypes.arrayOf(PropTypes.shape(punkApi.beerShape())).isRequired,
     loadingState: PropTypes.oneOf(['initial', 'loading', 'success', 'fail']).isRequired,
+    errorMsg: PropTypes.string.isRequired,
     page: PropTypes.number.isRequired,
-    filter: PropTypes.string,
+    filter: PropTypes.string.isRequired,
     itemsPerPage: PropTypes.number.isRequired,
-  };
-
-  static defaultProps = {
-    filter: null,
   };
 
   componentDidMount() {
@@ -30,20 +27,30 @@ class BeerList extends React.Component {
     loadPage(itemsPerPage, page, filter);
   }
 
+  onClickRetry = () => {
+    const {
+      loadPage, page, itemsPerPage, filter,
+    } = this.props;
+    loadPage(itemsPerPage, page, filter);
+  };
+
   render() {
-    const { beers, loadingState } = this.props;
+    const { beers, loadingState, errorMsg } = this.props;
+
     switch (loadingState) {
       case 'success': {
         return (
-          <StyledFlexList
+          <Flex
             is="ul"
             width={[1, 3 / 4, 2 / 3]}
             flexDirection="column"
             alignItems="center"
+            style={{ listStyle: 'none' }}
+            p="0px"
           >
             {beers &&
               beers.map(beer => (
-                <Box is="li" p="1em" key={beer.id}>
+                <Box is="li" p="1em" key={beer.id} width="100%">
                   <Beer
                     name={beer.name}
                     tagline={beer.tagline}
@@ -51,10 +58,14 @@ class BeerList extends React.Component {
                     abv={beer.abv}
                     volume={beer.volume.value}
                     volumeUnit={beer.volume.unit}
+                    showMoreButtonCallback={() => {
+                      // eslint-disable-next-line no-console
+                      console.log('show more button callback');
+                    }}
                   />
                 </Box>
               ))}
-          </StyledFlexList>
+          </Flex>
         );
       }
       case 'loading': {
@@ -65,7 +76,11 @@ class BeerList extends React.Component {
         );
       }
       case 'fail': {
-        return <h1>Something went wrong</h1>;
+        return (
+          <Box width={[3 / 4, 2 / 4, 3 / 8]} p="30px">
+            <ErrorCard errorMsg={errorMsg} buttonCallback={this.onClickRetry} />
+          </Box>
+        );
       }
       default:
         return null;
@@ -79,6 +94,7 @@ const mapStateToProps = ({ beerList }) => ({
   page: beerList.page,
   filter: beerList.filter,
   itemsPerPage: beerList.itemsPerPage,
+  errorMsg: beerList.errorMsg,
 });
 
 const mapDispatchToProps = dispatch => ({

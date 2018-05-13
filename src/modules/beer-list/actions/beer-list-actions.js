@@ -17,7 +17,7 @@ export function loadPage(dispatch) {
       punkApi
         .getBeersByPage(numberOfBeers, pageNumber, filter)
         .then(beers => dispatch({ type: LOADING_PAGE_SUCCEEDED, beers }))
-        .catch(error => dispatch({ type: LOADING_PAGE_FAILED, error }));
+        .catch(error => dispatch({ type: LOADING_PAGE_FAILED, error: error.message }));
     } catch (error) {
       dispatch({ type: LOADING_PAGE_FAILED, error });
     }

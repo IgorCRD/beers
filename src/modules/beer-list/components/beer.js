@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Flex } from 'grid-styled';
+import { Flex, Box } from 'grid-styled';
 import media from 'core/styles/media-breakpoints';
+import Button from 'core/components/button';
 
 const BeerImage = styled.img`
   height: 100%;
@@ -36,6 +37,7 @@ const BeerTitle = styled.h3`
   font-family: 'Helvetica', 'Arial';
   letter-spacing: 2px;
   font-size: 1em;
+  margin-top: 0px;
 `;
 
 const SecondaryText = styled.p`
@@ -77,16 +79,35 @@ const SmallOrangeText = styled(OrangeText)`
   font-size: 1em;
 `;
 
+const ShowMoreButton = styled(Box)`
+  font-size: 0.8em;
+  ${media.desktop`display: auto;`};
+  ${media.tablet`display: auto;`};
+  ${media.phone`display: none`};
+`;
+
 const Beer = ({
-  name, tagline, image, abv, volume, volumeUnit,
+  name, tagline, image, abv, volume, volumeUnit, showMoreButtonCallback,
 }) => (
   <BeerDetailsWrapper>
     <BeerImageWrapper>
       <BeerImage src={image} alt="beer" />
     </BeerImageWrapper>
-    <Flex flexDirection="column" ml="1em" width={[2 / 3]}>
+    <Flex flexDirection="column" ml="1em" py="10px" width={[2 / 3]} flex="1 1 100%">
       <BeerTitle>{name.toUpperCase()}</BeerTitle>
       <SecondaryText>{tagline}</SecondaryText>
+      <Flex flexDirection="column" flex="1 1 100%">
+        <Box flex="1 1 auto" />
+        <ShowMoreButton flex="0 1 auto">
+          <Button
+            backgroundColor="rgb(123, 187, 45)"
+            color="white"
+            onClick={showMoreButtonCallback}
+          >
+            Show more
+          </Button>
+        </ShowMoreButton>
+      </Flex>
     </Flex>
     <Flex>
       <VerticalBar />
@@ -122,6 +143,7 @@ Beer.propTypes = {
   abv: PropTypes.number.isRequired,
   volume: PropTypes.number.isRequired,
   volumeUnit: PropTypes.string.isRequired,
+  showMoreButtonCallback: PropTypes.func.isRequired,
 };
 
 export default Beer;
