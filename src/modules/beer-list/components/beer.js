@@ -86,64 +86,78 @@ const ShowMoreButton = styled(Box)`
   ${media.phone`display: none`};
 `;
 
-const Beer = ({
-  name, tagline, image, abv, volume, volumeUnit, showMoreButtonCallback,
-}) => (
-  <BeerDetailsWrapper>
-    <BeerImageWrapper>
-      <BeerImage src={image} alt="beer" />
-    </BeerImageWrapper>
-    <Flex flexDirection="column" ml="1em" py="10px" width={[2 / 3]} flex="1 1 100%">
-      <BeerTitle>{name.toUpperCase()}</BeerTitle>
-      <SecondaryText>{tagline}</SecondaryText>
-      <Flex flexDirection="column" flex="1 1 100%">
-        <Box flex="1 1 auto" />
-        <ShowMoreButton flex="0 1 auto">
-          <Button
-            backgroundColor="rgb(123, 187, 45)"
-            color="white"
-            onClick={showMoreButtonCallback}
-          >
-            Show more
-          </Button>
-        </ShowMoreButton>
-      </Flex>
-    </Flex>
-    <Flex>
-      <VerticalBar />
-    </Flex>
-    <Flex
-      flexDirection="column"
-      justifyContent="space-around"
-      alignItems="center"
-      flex="1 1 auto"
-      pl="1.2em"
-    >
-      <SmallSecondaryText>alc/vol</SmallSecondaryText>
-      <div>
-        <GreenText>{abv}</GreenText>
-        <SmallGreenText>%</SmallGreenText>
-      </div>
-      <Flex flexWrap="wrap" justifyContent="center">
-        <SmallSecondaryText>Unit&nbsp;</SmallSecondaryText>
-        <SmallSecondaryText>contains</SmallSecondaryText>
-      </Flex>
-      <div>
-        <OrangeText>{volume}</OrangeText>
-        <SmallOrangeText>{volumeUnit}</SmallOrangeText>
-      </div>
-    </Flex>
-  </BeerDetailsWrapper>
-);
+class Beer extends React.Component {
+  propTypes = {
+    name: PropTypes.string.isRequired,
+    tagline: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    abv: PropTypes.number.isRequired,
+    volume: PropTypes.number.isRequired,
+    volumeUnit: PropTypes.string.isRequired,
+    showMoreCallback: PropTypes.func.isRequired,
+  };
 
-Beer.propTypes = {
-  name: PropTypes.string.isRequired,
-  tagline: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  abv: PropTypes.number.isRequired,
-  volume: PropTypes.number.isRequired,
-  volumeUnit: PropTypes.string.isRequired,
-  showMoreButtonCallback: PropTypes.func.isRequired,
-};
+  onClick = () => {
+    if (!this.showMoreButton || window.getComputedStyle(this.showMoreButton).display === 'none') {
+      const { showMoreCallback } = this.props;
+      showMoreCallback();
+    }
+  };
+
+  render() {
+    const {
+      name, tagline, image, abv, volume, volumeUnit, showMoreCallback,
+    } = this.props;
+
+    return (
+      <BeerDetailsWrapper onClick={this.onClick}>
+        <BeerImageWrapper>
+          <BeerImage src={image} alt="beer" />
+        </BeerImageWrapper>
+        <Flex flexDirection="column" ml="1em" py="10px" width={[2 / 3]} flex="1 1 100%">
+          <BeerTitle>{name.toUpperCase()}</BeerTitle>
+          <SecondaryText>{tagline}</SecondaryText>
+          <Flex flexDirection="column" flex="1 1 100%">
+            <Box flex="1 1 auto" />
+            <ShowMoreButton
+              flex="0 1 auto"
+              innerRef={(showMoreButton) => {
+                this.showMoreButton = showMoreButton;
+              }}
+            >
+              <Button backgroundColor="rgb(123, 187, 45)" color="white" onClick={showMoreCallback}>
+                Show more
+              </Button>
+            </ShowMoreButton>
+          </Flex>
+        </Flex>
+        <Flex>
+          <VerticalBar />
+        </Flex>
+        <Flex
+          flexDirection="column"
+          justifyContent="space-around"
+          alignItems="center"
+          flex="1 1 auto"
+          pl="1.2em"
+        >
+          <SmallSecondaryText>alc/vol</SmallSecondaryText>
+          <div>
+            <GreenText>{abv}</GreenText>
+            <SmallGreenText>%</SmallGreenText>
+          </div>
+          <Flex flexWrap="wrap" justifyContent="center">
+            <SmallSecondaryText>Unit&nbsp;</SmallSecondaryText>
+            <SmallSecondaryText>contains</SmallSecondaryText>
+          </Flex>
+          <div>
+            <OrangeText>{volume}</OrangeText>
+            <SmallOrangeText>{volumeUnit}</SmallOrangeText>
+          </div>
+        </Flex>
+      </BeerDetailsWrapper>
+    );
+  }
+}
 
 export default Beer;

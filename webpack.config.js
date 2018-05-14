@@ -1,6 +1,7 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
@@ -68,6 +69,11 @@ module.exports = {
       rewrites: [{ from: '.', to: './dist/index.html' }],
     },
     compress: true,
+    hot: true,
+    overlay: {
+      warnings: true,
+      errors: true,
+    },
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),
@@ -83,5 +89,7 @@ module.exports = {
       threshold: 10240,
       minRatio: 0.8,
     }),
+    new webpack.NamedModulesPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
   ],
 };

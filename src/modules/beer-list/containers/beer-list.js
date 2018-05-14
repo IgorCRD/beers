@@ -58,7 +58,7 @@ class BeerList extends React.Component {
                     abv={beer.abv}
                     volume={beer.volume.value}
                     volumeUnit={beer.volume.unit}
-                    showMoreButtonCallback={() => {
+                    showMoreCallback={() => {
                       // eslint-disable-next-line no-console
                       console.log('show more button callback');
                     }}
