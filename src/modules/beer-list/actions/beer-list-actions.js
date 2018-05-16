@@ -1,13 +1,34 @@
-import punkApi from 'core/api/punk-api-wrapper';
+import * as punkApi from 'core/api/punk-api';
 
 export const OPEN_BEER_DETAILS = 'OPEN_BEER_DETAILS';
+export const CLOSE_BEER_DETAILS = 'CLOSE_BEER_DETAILS';
+
 export const SHOW_PAGE = 'SHOW_PAGE';
+export const NEXT_PAGE = 'NEXT_PAGE';
+export const PREVIOUS_PAGE = 'PREVIOUS_PAGE';
+
 export const LOADING_PAGE = 'LOADING_PAGE';
 export const LOADING_PAGE_FAILED = 'LOADING_PAGE_FAILED';
 export const LOADING_PAGE_SUCCEEDED = 'LOADING_PAGE_SUCCEEDED';
 
 export function openBeerDetails(id) {
   return { type: OPEN_BEER_DETAILS, id };
+}
+
+export function closeBeerDetails() {
+  return { type: CLOSE_BEER_DETAILS };
+}
+
+export function showPage(id) {
+  return { type: SHOW_PAGE, id };
+}
+
+export function nextPage() {
+  return { type: NEXT_PAGE };
+}
+
+export function previousPage() {
+  return { type: PREVIOUS_PAGE };
 }
 
 export function loadPage(dispatch) {

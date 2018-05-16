@@ -86,8 +86,12 @@ const ShowMoreButton = styled(Box)`
   ${media.phone`display: none`};
 `;
 
+const Wrapper = styled.div`
+  outline: 0;
+`;
+
 class Beer extends React.Component {
-  propTypes = {
+  static propTypes = {
     name: PropTypes.string.isRequired,
     tagline: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
@@ -95,67 +99,85 @@ class Beer extends React.Component {
     volume: PropTypes.number.isRequired,
     volumeUnit: PropTypes.string.isRequired,
     showMoreCallback: PropTypes.func.isRequired,
+    id: PropTypes.number.isRequired,
   };
 
   onClick = () => {
-    if (!this.showMoreButton || window.getComputedStyle(this.showMoreButton).display === 'none') {
-      const { showMoreCallback } = this.props;
-      showMoreCallback();
+    if (!this.isShowMoreButtonShowing()) {
+      const { showMoreCallback, id } = this.props;
+      showMoreCallback(id);
     }
   };
 
+  onButtonClicked = (event) => {
+    const { showMoreCallback, id } = this.props;
+    showMoreCallback(id);
+
+    event.stopPropagation();
+    return false;
+  };
+
+  isShowMoreButtonShowing = () =>
+    this.showMoreButton && window.getComputedStyle(this.showMoreButton).display !== 'none';
+
   render() {
     const {
-      name, tagline, image, abv, volume, volumeUnit, showMoreCallback,
+      name, tagline, image, abv, volume, volumeUnit,
     } = this.props;
 
     return (
-      <BeerDetailsWrapper onClick={this.onClick}>
-        <BeerImageWrapper>
-          <BeerImage src={image} alt="beer" />
-        </BeerImageWrapper>
-        <Flex flexDirection="column" ml="1em" py="10px" width={[2 / 3]} flex="1 1 100%">
-          <BeerTitle>{name.toUpperCase()}</BeerTitle>
-          <SecondaryText>{tagline}</SecondaryText>
-          <Flex flexDirection="column" flex="1 1 100%">
-            <Box flex="1 1 auto" />
-            <ShowMoreButton
-              flex="0 1 auto"
-              innerRef={(showMoreButton) => {
-                this.showMoreButton = showMoreButton;
-              }}
-            >
-              <Button backgroundColor="rgb(123, 187, 45)" color="white" onClick={showMoreCallback}>
-                Show more
-              </Button>
-            </ShowMoreButton>
+      <Wrapper role="button" onClick={this.onClick}>
+        <BeerDetailsWrapper>
+          <BeerImageWrapper width="14vw">
+            <BeerImage src={image} alt="beer" />
+          </BeerImageWrapper>
+          <Flex flexDirection="column" ml="1em" py="10px" width={[2 / 3]} flex="1 1 100%">
+            <BeerTitle>{name.toUpperCase()}</BeerTitle>
+            <SecondaryText>{tagline}</SecondaryText>
+            <Flex flexDirection="column" flex="1 1 100%">
+              <Box flex="1 1 auto" />
+              <ShowMoreButton
+                flex="0 1 auto"
+                innerRef={(showMoreButton) => {
+                  this.showMoreButton = showMoreButton;
+                }}
+              >
+                <Button
+                  backgroundColor="rgb(123, 187, 45)"
+                  color="white"
+                  onClick={this.onButtonClicked}
+                >
+                  Show more
+                </Button>
+              </ShowMoreButton>
+            </Flex>
           </Flex>
-        </Flex>
-        <Flex>
-          <VerticalBar />
-        </Flex>
-        <Flex
-          flexDirection="column"
-          justifyContent="space-around"
-          alignItems="center"
-          flex="1 1 auto"
-          pl="1.2em"
-        >
-          <SmallSecondaryText>alc/vol</SmallSecondaryText>
-          <div>
-            <GreenText>{abv}</GreenText>
-            <SmallGreenText>%</SmallGreenText>
-          </div>
-          <Flex flexWrap="wrap" justifyContent="center">
-            <SmallSecondaryText>Unit&nbsp;</SmallSecondaryText>
-            <SmallSecondaryText>contains</SmallSecondaryText>
+          <Flex>
+            <VerticalBar />
           </Flex>
-          <div>
-            <OrangeText>{volume}</OrangeText>
-            <SmallOrangeText>{volumeUnit}</SmallOrangeText>
-          </div>
-        </Flex>
-      </BeerDetailsWrapper>
+          <Flex
+            flexDirection="column"
+            justifyContent="space-around"
+            alignItems="center"
+            flex="1 1 auto"
+            pl="1.2em"
+          >
+            <SmallSecondaryText>alc/vol</SmallSecondaryText>
+            <div>
+              <GreenText>{abv}</GreenText>
+              <SmallGreenText>%</SmallGreenText>
+            </div>
+            <Flex flexWrap="wrap" justifyContent="center">
+              <SmallSecondaryText>Unit&nbsp;</SmallSecondaryText>
+              <SmallSecondaryText>contains</SmallSecondaryText>
+            </Flex>
+            <div>
+              <OrangeText>{volume}</OrangeText>
+              <SmallOrangeText>{volumeUnit}</SmallOrangeText>
+            </div>
+          </Flex>
+        </BeerDetailsWrapper>
+      </Wrapper>
     );
   }
 }

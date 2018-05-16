@@ -2,22 +2,23 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Box, Flex } from 'grid-styled';
+import { FoldingCube } from 'styled-spinkit';
 
 import * as beerListActions from 'beer-list/actions/beer-list-actions';
-import punkApi from 'core/api/punk-api-wrapper';
-import Beer from 'beer-list/components/beer';
-import { FoldingCube } from 'styled-spinkit';
+import BeerList from 'beer-list/components/beer-list';
+import * as punkApi from 'core/api/punk-api';
 import ErrorCard from 'core/components/error-card';
 
-class BeerList extends React.Component {
+class BeerListContainer extends React.Component {
   static propTypes = {
     loadPage: PropTypes.func.isRequired,
-    beers: PropTypes.arrayOf(PropTypes.shape(punkApi.beerShape())).isRequired,
+    beers: PropTypes.arrayOf(PropTypes.shape(punkApi.beerShape)).isRequired,
     loadingState: PropTypes.oneOf(['initial', 'loading', 'success', 'fail']).isRequired,
     errorMsg: PropTypes.string.isRequired,
     page: PropTypes.number.isRequired,
     filter: PropTypes.string.isRequired,
     itemsPerPage: PropTypes.number.isRequired,
+    openBeerDetails: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -34,40 +35,17 @@ class BeerList extends React.Component {
     loadPage(itemsPerPage, page, filter);
   };
 
+  onClickShowMore = (id) => {
+    const { openBeerDetails } = this.props;
+    openBeerDetails(id);
+  };
+
   render() {
     const { beers, loadingState, errorMsg } = this.props;
 
     switch (loadingState) {
-      case 'success': {
-        return (
-          <Flex
-            is="ul"
-            width={[1, 3 / 4, 2 / 3]}
-            flexDirection="column"
-            alignItems="center"
-            style={{ listStyle: 'none' }}
-            p="0px"
-          >
-            {beers &&
-              beers.map(beer => (
-                <Box is="li" p="1em" key={beer.id} width="100%">
-                  <Beer
-                    name={beer.name}
-                    tagline={beer.tagline}
-                    image={beer.image_url}
-                    abv={beer.abv}
-                    volume={beer.volume.value}
-                    volumeUnit={beer.volume.unit}
-                    showMoreCallback={() => {
-                      // eslint-disable-next-line no-console
-                      console.log('show more button callback');
-                    }}
-                  />
-                </Box>
-              ))}
-          </Flex>
-        );
-      }
+      case 'success':
+        return <BeerList beers={beers} showMoreCallback={this.onClickShowMore} />;
       case 'loading': {
         return (
           <Flex pt="3em">
@@ -82,6 +60,7 @@ class BeerList extends React.Component {
           </Box>
         );
       }
+      case 'initial':
       default:
         return null;
     }
@@ -99,6 +78,7 @@ const mapStateToProps = ({ beerList }) => ({
 
 const mapDispatchToProps = dispatch => ({
   loadPage: beerListActions.loadPage(dispatch),
+  openBeerDetails: id => dispatch(beerListActions.openBeerDetails(id)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(BeerList);
+export default connect(mapStateToProps, mapDispatchToProps)(BeerListContainer);
