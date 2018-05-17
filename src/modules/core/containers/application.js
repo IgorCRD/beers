@@ -18,12 +18,12 @@ const normalize = () => injectGlobal`
     padding: 0;
     background-color: white;
     height: 100vh;
-    width: 100vw;
+    width: 100%;
   }
 
   #app {
     height: 100vh;
-    width: 100vw;
+    width: 100%;
   }
 `;
 

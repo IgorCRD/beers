@@ -3,9 +3,9 @@ import { Switch } from 'react-router-dom';
 import Application from 'core/containers/application';
 import home from 'home';
 
-const appRoutes = store => (
+const appRoutes = () => (
   <Switch>
-    <Application>{home.routes(store)}</Application>
+    <Application>{home.routes()}</Application>
   </Switch>
 );
 

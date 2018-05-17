@@ -30,7 +30,7 @@ const StyledH3 = styled.h3`
 `;
 
 const Header = () => (
-  <BlackFlex flexDirection="column" justifyContent="center">
+  <BlackFlex is="header" flexDirection="column" justifyContent="center">
     <BeerLoversFlex
       p={3}
       width={[1, 1 / 2]}

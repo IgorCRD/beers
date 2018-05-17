@@ -6,7 +6,7 @@ import * as punkApi from 'core/api/punk-api';
 import Beer from 'beer-list/components/beer';
 
 const BeerList = ({ beers, showMoreCallback }) => (
-  <Flex is="section" width={[1, 3 / 4, 2 / 3]}>
+  <Flex width={[1, 3 / 4, 2 / 3]}>
     <Flex
       is="ul"
       width={[1]}
