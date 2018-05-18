@@ -17,9 +17,9 @@ const normalize = () => injectGlobal`
   body {
     padding: 0;
     background-color: white;
-    height: 100vh;
+    height: 100%;
     width: 100%;
-    overflow-x: hidden;
+    -webkit-overflow-scrolling : touch;
   }
 
   #app {

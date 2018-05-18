@@ -63,6 +63,7 @@ const BeerImageWrapper = styled(Flex)`
 
 const ModalContent = styled(Flex)`
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 `;
 
 const GetIngredients = (beer) => {
@@ -119,12 +120,13 @@ const BeerModal = ({ beer, closeModalCallback }) => (
               <Values>{beer.food_pairing.join(', ')}</Values>
             </React.Fragment>
           )}
-          {beer.ibu && (
-            <React.Fragment>
-              <Fields>BITTERNESS</Fields>
-              <Values>{beer.ibu} IBU</Values>
-            </React.Fragment>
-          )}
+          {beer.ibu !== undefined &&
+            beer.ibu !== null && (
+              <React.Fragment>
+                <Fields>BITTERNESS</Fields>
+                <Values>{beer.ibu} IBU</Values>
+              </React.Fragment>
+            )}
         </Flex>
       </Flex>
     </ModalContent>

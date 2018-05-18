@@ -10,7 +10,6 @@ const FullShadow = styled.section`
   bottom: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.3);
-  overflow: hidden;
 `;
 
 const moveIn = keyframes`
