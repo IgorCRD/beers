@@ -36,7 +36,10 @@ const BeerTitle = styled.h3`
   color: rgb(247, 134, 44);
   font-family: 'Helvetica', 'Arial';
   letter-spacing: 2px;
-  font-size: 1em;
+  ${media.desktop`font-size: 1em`};
+  ${media.tablet`font-size: 0.8em`};
+  ${media.phone`font-size: 0.8em`};
+  word-break: break-word;
   margin-top: 0px;
 `;
 

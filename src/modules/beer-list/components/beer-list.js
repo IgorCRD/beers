@@ -12,7 +12,10 @@ const BeerList = ({ beers, showMoreCallback }) => (
       width={[1]}
       flexDirection="column"
       alignItems="center"
-      style={{ listStyle: 'none' }}
+      style={{
+        listStyle: 'none',
+        overflowX: 'hidden',
+      }}
       p="0px"
       my="0px"
     >

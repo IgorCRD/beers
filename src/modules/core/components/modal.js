@@ -55,7 +55,7 @@ class Modal extends React.Component {
 
   handleMoveOut = (onOutCallback) => {
     const { right } = this.modal.getBoundingClientRect();
-    if (right > 0) {
+    if (right > 2) {
       window.requestAnimationFrame(() => this.handleMoveOut(onOutCallback));
     } else {
       onOutCallback();

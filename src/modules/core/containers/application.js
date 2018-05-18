@@ -19,6 +19,7 @@ const normalize = () => injectGlobal`
     background-color: white;
     height: 100vh;
     width: 100%;
+    overflow-x: hidden;
   }
 
   #app {
