@@ -28,6 +28,18 @@ class BeerListContainer extends React.Component {
     loadPage(itemsPerPage, page, filter);
   }
 
+  componentDidUpdate(prevProps) {
+    const { page, filter } = this.props;
+    const { page: prevPage, filter: prevFilter } = prevProps;
+
+    if (page === prevPage && filter === prevFilter) {
+      return;
+    }
+
+    const { loadPage, itemsPerPage } = this.props;
+    loadPage(itemsPerPage, page, filter);
+  }
+
   onClickRetry = () => {
     const {
       loadPage, page, itemsPerPage, filter,
@@ -48,7 +60,7 @@ class BeerListContainer extends React.Component {
         return <BeerList beers={beers} showMoreCallback={this.onClickShowMore} />;
       case 'loading': {
         return (
-          <Flex pt="3em">
+          <Flex pt="3em" style={{ height: '100vh' }}>
             <FoldingCube />
           </Flex>
         );

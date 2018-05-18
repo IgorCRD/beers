@@ -14,6 +14,7 @@ const BeerList = ({ beers, showMoreCallback }) => (
       alignItems="center"
       style={{ listStyle: 'none' }}
       p="0px"
+      my="0px"
     >
       {beers &&
         beers.map(beer => (

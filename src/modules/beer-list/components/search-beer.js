@@ -3,18 +3,21 @@ import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const SearchBar = styled(Box)`
+import searchIconImg from 'assets/images/search-icon.png';
+
+const FlexSearchBar = styled(Flex)`
   background-color: white;
   box-shadow: 24px -8px 20px -25px grey, -24px -8px 20px -25px grey;
   border-radius: 5px;
   font-size: 1.5em;
+  position: relative;
 `;
 
 const SearchInput = styled.input`
   width: 100%;
   border: none;
   border-bottom: 1px solid lightgray;
-  font-family: helvetica;
+  font-family: 'Helvetica', 'Arial';
   color: #25174d;
 
   &:focus {
@@ -22,11 +25,20 @@ const SearchInput = styled.input`
   }
 `;
 
+const SearchIcon = styled(Box)`
+  position: absolute;
+  width: 1.5em;
+  height: 1.5em;
+  align-self: flex-end;
+  margin: -3px 0 0 -3px;
+`;
+
 const SearchBeer = ({ input, onChangeCallback }) => (
   <Flex p="1em" width={[1, 3 / 4, 2 / 3]}>
-    <SearchBar p="1em" width={[1]}>
+    <FlexSearchBar justifyContent="flex-end" p="1em" width={[1]}>
       <SearchInput value={input} onChange={onChangeCallback} />
-    </SearchBar>
+      <SearchIcon is="img" src={searchIconImg} alt="search icon" />
+    </FlexSearchBar>
   </Flex>
 );
 

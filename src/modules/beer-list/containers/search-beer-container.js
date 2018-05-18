@@ -8,10 +8,8 @@ import SearchBeer from 'beer-list/components/search-beer';
 
 class SearchBeerContainer extends React.Component {
   static propTypes = {
-    page: PropTypes.number.isRequired,
-    itemsPerPage: PropTypes.number.isRequired,
+    search: PropTypes.func.isRequired,
     filter: PropTypes.string.isRequired,
-    loadPage: PropTypes.func.isRequired,
   };
 
   state = {
@@ -20,13 +18,17 @@ class SearchBeerContainer extends React.Component {
 
   componentDidMount() {
     const { filter } = this.props;
-    this.setState({ input: filter });
+    return { input: filter };
   }
 
   onChangeHandler = (event) => {
-    this.setState({ input: event.target.value });
-    const { page, itemsPerPage, loadPage } = this.props;
-    loadPage(itemsPerPage, page, event.target.value);
+    const { search } = this.props;
+    const {
+      target: { value },
+    } = event;
+    this.setState({ input: value }, () => {
+      search(value);
+    });
   };
 
   render() {
@@ -35,14 +37,12 @@ class SearchBeerContainer extends React.Component {
   }
 }
 
-const mapStateToProps = ({ beerList: { page, filter, itemsPerPage } }) => ({
-  page,
+const mapStateToProps = ({ beerList: { filter } }) => ({
   filter,
-  itemsPerPage,
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadPage: debounce(beerListActions.loadPage(dispatch), 300),
+  search: debounce(searchString => dispatch(beerListActions.search(searchString)), 400),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBeerContainer);
