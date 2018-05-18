@@ -27,9 +27,9 @@ Follow the steps bellow to produce a production ready bundle:
 
 All configuration needed for deploying it to heroku is already made. So all you need to do to deploy to heroku is:
 
-1. git clone https://github.com/IgorCRD/beers.git
-2. cd beers
-3. heroku create [appName]
-4. git push heroku master
+1. clones the git repository to your machine ```git clone https://github.com/IgorCRD/beers.git```
+2. changes from current directory to repository directory ```cd beers```
+3. creates a heroku app where you app is going to live ```heroku create [appName]```
+4. pushes the current version to heroku and starts the deploy pipeline ```git push heroku master```
 
 PS.: You must have the Heroku CLI installed and logged in your machine
